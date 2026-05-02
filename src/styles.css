@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ─── ABSTRACT MOTION KEYFRAMES ───────────────────────── */
+
+/* Yatay altın toz akışı (Problem section üst+alt) */
+@keyframes drift-right {
+  0% { transform: translateX(-10%); opacity: 0; }
+  10%, 90% { opacity: 1; }
+  100% { transform: translateX(110%); opacity: 0; }
+}
+@keyframes drift-left {
+  0% { transform: translateX(110%); opacity: 0; }
+  10%, 90% { opacity: 1; }
+  100% { transform: translateX(-10%); opacity: 0; }
+}
+
+/* Yavaş yukarı süzülme (Hero + Final CTA partikül) */
+@keyframes float-up {
+  0% { transform: translateY(20px); opacity: 0; }
+  20%, 80% { opacity: 1; }
+  100% { transform: translateY(-120px); opacity: 0; }
+}
+
+/* Ayna dalga halkası (Demo CTA arkası) */
+@keyframes ripple {
+  0% { transform: scale(0.4); opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* Yumuşak ipek dalgalanma (Hero arkası) */
+@keyframes silk-wave {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  33% { transform: translate3d(-2%, 1%, 0) rotate(0.5deg); }
+  66% { transform: translate3d(1%, -1%, 0) rotate(-0.3deg); }
+}
+
+/* Etiket sallanışı (4 Adım hangtag) */
+@keyframes hangtag-sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+/* QR pixel disintegration (logo'daki breakaway efekti referans) */
+@keyframes pixel-scatter {
+  0% { transform: translate(0, 0); opacity: 1; }
+  100% { transform: translate(var(--dx, 20px), var(--dy, -10px)); opacity: 0; }
+}
+
+/* Subtle pulse — Demo butonu glow */
+@keyframes soft-pulse {
+  0%, 100% { box-shadow: 0 10px 25px -8px rgba(201, 169, 97, 0.3); }
+  50% { box-shadow: 0 15px 35px -8px rgba(201, 169, 97, 0.5); }
+}
+
+/* ─── UTILITY CLASSES ─────────────────────────────────── */
+
+.animate-drift-right {
+  animation: drift-right 12s linear infinite;
+}
+.animate-drift-left {
+  animation: drift-left 14s linear infinite;
+}
+.animate-float-up {
+  animation: float-up 8s ease-out infinite;
+}
+.animate-ripple {
+  animation: ripple 4s ease-out infinite;
+}
+.animate-silk-wave {
+  animation: silk-wave 9s ease-in-out infinite;
+  will-change: transform;
+}
+.animate-hangtag-sway {
+  animation: hangtag-sway 4s ease-in-out infinite;
+  transform-origin: top center;
+}
+.animate-soft-pulse {
+  animation: soft-pulse 3.5s ease-in-out infinite;
+}
+
+/* Parchment grain (SSS arka plan) — CSS-only noise overlay */
+.grain-overlay {
+  position: relative;
+}
+.grain-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.78 0 0 0 0 0.71 0 0 0 0 0.55 0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: 0.15;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 0;
+}
+.grain-overlay > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Reduced motion — erişilebilirlik */
+@media (prefers-reduced-motion: reduce) {
+  .animate-drift-right,
+  .animate-drift-left,
+  .animate-float-up,
+  .animate-ripple,
+  .animate-silk-wave,
+  .animate-hangtag-sway,
+  .animate-soft-pulse {
+    animation: none;
+  }
+}
