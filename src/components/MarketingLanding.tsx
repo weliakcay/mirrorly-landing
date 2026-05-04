@@ -354,57 +354,74 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
         </div>
       </nav>
 
-      {/* ─── HERO ──────────────────────────────────────── */}
-      <section className="relative px-5 sm:px-8 pt-16 sm:pt-24 pb-20 sm:pb-32">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center relative">
-          <div className="relative z-10">
-            <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-6">
-              Scan. Style. Try on.
-            </p>
-            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl text-mirrorly-black leading-[1.05] tracking-tight mb-6">
-              Etiketi okut.
-              <br />
-              <span className="italic text-mirrorly-stone">Üstünde gör.</span>
-            </h1>
-            <p className="text-lg sm:text-xl text-mirrorly-stone leading-relaxed mb-10 max-w-xl">
-              Müşterin kabine girmeden, kıyafetin kendi üstünde nasıl durduğunu telefonunda görsün.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <button
-                onClick={onMerchantSignup}
-                className="group inline-flex items-center justify-center gap-2 bg-mirrorly-black text-mirrorly-cream px-7 py-4 rounded-full font-medium text-base shadow-lg hover:shadow-xl hover:bg-mirrorly-stone transition-all"
-              >
-                Butiğimi Kur
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </button>
-              <button
-                onClick={onCustomerDemo}
-                className="inline-flex items-center justify-center gap-2 bg-white/60 border border-mirrorly-paper hover:border-mirrorly-gold/70 text-mirrorly-black px-7 py-4 rounded-full font-medium text-base transition-all"
-              >
-                <Scan className="w-4 h-4" />
-                Demoyu Dene
-              </button>
-            </div>
+      {/* ─── HERO — FULL-BLEED SANATSAL ─────────────────── */}
+      <section className="relative min-h-[100vh] w-full overflow-hidden -mt-[73px] pt-[73px]">
+        {/* Background — sanatsal görsel veya fallback */}
+        <div className="absolute inset-0">
+          {/* Sanatsal hero görseli (Veli yükleyecek) */}
+          <img
+            src="/brand/hero-art.png"
+            alt="Mirrorly"
+            className="absolute inset-0 w-full h-full object-cover"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = 'none';
+            }}
+          />
+          {/* Fallback — görsel gelmediyse zengin gradient + animasyon */}
+          <div className="absolute inset-0 bg-gradient-to-br from-mirrorly-paper via-mirrorly-cream to-mirrorly-gold/40">
+            <SilkWaveBackground />
+            <FloatingParticles count={30} />
+            {/* Soft radial glow */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'radial-gradient(ellipse 60% 50% at 70% 50%, rgba(201,169,97,0.25), transparent 70%)',
+              }}
+            />
           </div>
+        </div>
 
-          {/* Hero visual — silk wave + floating particles + logo */}
-          <div className="relative">
-            <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-mirrorly-paper shadow-2xl bg-gradient-to-br from-mirrorly-paper via-mirrorly-cream to-mirrorly-paper relative">
-              <SilkWaveBackground />
-              <FloatingParticles count={20} />
-              <div className="absolute inset-0 flex items-center justify-center p-10 z-10">
-                <img
-                  src="/brand/logo-primary.png"
-                  alt="Mirrorly"
-                  className="max-h-[80%] max-w-[80%] object-contain drop-shadow-xl"
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.opacity = '0.3';
-                  }}
-                />
+        {/* Overlay gradient — sol taraf okunaklı kalsın */}
+        <div className="absolute inset-0 bg-gradient-to-r from-mirrorly-cream/95 via-mirrorly-cream/70 to-mirrorly-cream/10 md:from-mirrorly-cream/90 md:via-mirrorly-cream/40 md:to-transparent" />
+
+        {/* Content */}
+        <div className="relative z-10 min-h-[calc(100vh-73px)] flex items-center px-5 sm:px-8">
+          <div className="max-w-6xl mx-auto w-full">
+            <div className="max-w-2xl py-16 sm:py-24 animate-fade-in">
+              <p className="text-xs uppercase tracking-[0.35em] text-mirrorly-gold font-semibold mb-6">
+                Scan. Style. Try on.
+              </p>
+              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-mirrorly-black leading-[1.02] tracking-tight mb-8">
+                Etiketi okut.
+                <br />
+                <span className="italic text-mirrorly-stone">Üstünde gör.</span>
+              </h1>
+              <p className="text-lg sm:text-xl md:text-2xl text-mirrorly-stone leading-relaxed mb-10 max-w-xl">
+                Müşterin kabine girmeden, kıyafetin kendi üstünde nasıl durduğunu telefonunda görsün.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <button
+                  onClick={onMerchantSignup}
+                  className="group inline-flex items-center justify-center gap-2 bg-mirrorly-black text-mirrorly-cream px-7 py-4 rounded-full font-medium text-base shadow-2xl hover:shadow-mirrorly-gold/30 hover:bg-mirrorly-stone transition-all"
+                >
+                  Butiğimi Kur
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </button>
+                <button
+                  onClick={onCustomerDemo}
+                  className="inline-flex items-center justify-center gap-2 bg-mirrorly-gold/15 backdrop-blur-sm border border-mirrorly-gold/50 hover:bg-mirrorly-gold/25 hover:border-mirrorly-gold text-mirrorly-black px-7 py-4 rounded-full font-medium text-base transition-all"
+                >
+                  <Scan className="w-4 h-4" />
+                  Demoyu Dene
+                </button>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Alt kenar — narrow gold accent line */}
+        <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-mirrorly-gold/60 to-transparent" />
       </section>
 
       {/* ─── PROBLEM ────────────────────────────────────── */}
@@ -420,9 +437,12 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
 
         <div className="relative max-w-3xl mx-auto px-5 sm:px-8 z-10">
           <p className="font-serif text-3xl sm:text-4xl md:text-5xl leading-tight tracking-tight">
-            Kabinin önü dolu, sıra ilerlemiyor. Müşteri 3 kıyafet deniyor, hiçbiri tutmuyor, elleri boş çıkıyor.
-            Online satıyorsun — kıyafet sepete giriyor, ama{' '}
-            <span className="text-mirrorly-gold">"üstümde nasıl durur?"</span> sorusunda iade geliyor.
+            Müşterin vitrini gördü, içeri girmedi. Kabin sırasını bekledi, çıkıp gitti. Online'dan aldı, üstüne uymadı, geri yolladı.
+            <br />
+            <span className="block mt-6 text-mirrorly-cream/70 text-2xl sm:text-3xl md:text-4xl italic">
+              Üç farklı sahne — tek bir soru:
+            </span>
+            <span className="block mt-3 text-mirrorly-gold">"Bende nasıl durur?"</span>
           </p>
         </div>
       </section>
@@ -539,7 +559,7 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
       <section className="relative py-20 sm:py-28 px-5 sm:px-8 overflow-hidden">
         <MirrorRipple />
         <div className="max-w-3xl mx-auto text-center relative z-10">
-          <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">Lafı bırak, dene</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">İlk denemen</p>
           <h2 className="font-serif text-4xl sm:text-5xl text-mirrorly-black tracking-tight mb-5">
             Önce sen dene.
           </h2>
