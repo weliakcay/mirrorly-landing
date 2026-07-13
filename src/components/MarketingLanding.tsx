@@ -358,11 +358,11 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
       <section className="relative min-h-[100vh] w-full overflow-hidden -mt-[73px] pt-[73px]">
         {/* Background — sanatsal görsel veya fallback */}
         <div className="absolute inset-0">
-          {/* Sanatsal hero görseli (Veli yükleyecek) */}
+          {/* Sanatsal hero görseli — sıcak butik anı (kie.ai flux-2 pro, 01-marka/gorsel-stil.md) */}
           <img
-            src="/brand/hero-art.png"
-            alt="Mirrorly"
-            className="absolute inset-0 w-full h-full object-cover"
+            src="/brand/generated/hero.jpg"
+            alt="Butiğinde telefonuyla kıyafeti üstünde gören müşteri"
+            className="absolute inset-0 w-full h-full object-cover object-right"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).style.display = 'none';
             }}
@@ -484,6 +484,29 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
         </div>
       </section>
 
+      {/* ─── GÖRSEL AKIŞ — GERÇEK KANIT ─────────────────── */}
+      <section className="pb-4 sm:pb-8 px-5 sm:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid sm:grid-cols-3 gap-4 sm:gap-6">
+            {[
+              { src: '/brand/generated/step-scan.jpg', n: '01', t: 'Etiketi okut', d: 'Kıyafetteki QR’ı telefonla okut.' },
+              { src: '/brand/generated/step-photo.jpg', n: '02', t: 'Kendini çek', d: 'Aynanın karşısında tek fotoğraf yeter.' },
+              { src: '/brand/generated/proof-rail.jpg', n: '03', t: 'Üstünde gör', d: 'Saniyeler içinde kendi üstünde.' },
+            ].map((it) => (
+              <figure key={it.n} className="group relative overflow-hidden rounded-3xl border border-mirrorly-paper aspect-[3/4]">
+                <img src={it.src} alt={it.t} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-mirrorly-black/70 via-mirrorly-black/10 to-transparent" />
+                <figcaption className="absolute bottom-0 inset-x-0 p-5 sm:p-6 text-mirrorly-cream">
+                  <p className="font-serif text-mirrorly-gold text-sm mb-1">{it.n}</p>
+                  <p className="font-serif text-xl sm:text-2xl leading-tight">{it.t}</p>
+                  <p className="text-sm text-mirrorly-cream/80 mt-1">{it.d}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─── KİM İÇİN? — 3 KART ─────────────────────────── */}
       <section className="py-20 sm:py-28 px-5 sm:px-8 bg-mirrorly-paper/40">
         <div className="max-w-6xl mx-auto">
@@ -551,6 +574,36 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
                 AVM'de gözüne takılan elbiseyi okutursun, üstünde görürsün, başka mağazaya bakmadan karar verirsin.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── BUTİK SAHİBİ / SELF-SERVİS ─────────────────── */}
+      <section className="py-20 sm:py-28 px-5 sm:px-8">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="relative rounded-3xl overflow-hidden border border-mirrorly-paper aspect-[3/2] order-last lg:order-first">
+            <img src="/brand/generated/owner.jpg" alt="Butik sahibi panelden QR etiketlerini yönetiyor" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">Butik sahibiysen</p>
+            <h2 className="font-serif text-4xl sm:text-5xl text-mirrorly-black tracking-tight mb-5 leading-tight">
+              Kurulumu sen yaparsın.<br /><span className="italic text-mirrorly-stone">5 dakikada.</span>
+            </h2>
+            <p className="text-base sm:text-lg text-mirrorly-stone leading-relaxed mb-8 max-w-lg">
+              Kendi kaydolursun, ürün görsellerini yüklersin, her ürüne benzersiz QR otomatik oluşur. Panelden yazdır, kıyafete as. Kimseyi beklemezsin.
+            </p>
+            <ul className="space-y-3 text-mirrorly-stone mb-9 max-w-lg">
+              <li className="flex gap-3"><span className="text-mirrorly-gold font-serif">·</span> Ürün başına otomatik, benzersiz QR</li>
+              <li className="flex gap-3"><span className="text-mirrorly-gold font-serif">·</span> Panelden istatistik ve kredi yönetimi</li>
+              <li className="flex gap-3"><span className="text-mirrorly-gold font-serif">·</span> Kurulum ekibi beklemek yok — anında canlı</li>
+            </ul>
+            <button
+              onClick={onMerchantSignup}
+              className="group inline-flex items-center justify-center gap-2 bg-mirrorly-black text-mirrorly-cream px-7 py-4 rounded-full font-medium text-base shadow-xl hover:bg-mirrorly-stone transition-all"
+            >
+              Butiğimi Kur
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </button>
           </div>
         </div>
       </section>
@@ -689,19 +742,9 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
             >
               <Instagram className="w-4 h-4" /> Instagram
             </a>
-            <a
-              href="https://wa.me/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 hover:text-mirrorly-black transition-colors"
-            >
-              <MessageCircle className="w-4 h-4" /> WhatsApp
-            </a>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-xs text-mirrorly-stone/60">
-            <a href="#" className="hover:text-mirrorly-stone">KVKK</a>
-            <a href="#" className="hover:text-mirrorly-stone">Gizlilik</a>
-            <a href="#" className="hover:text-mirrorly-stone">Kullanım Koşulları</a>
+            <span>© {new Date().getFullYear()} Mirrorly</span>
           </div>
         </div>
       </footer>
