@@ -735,7 +735,7 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
               <Mail className="w-4 h-4" /> Mail
             </a>
             <a
-              href="https://instagram.com/mirrorlyapp"
+              href="https://www.instagram.com/mirrorly.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 hover:text-mirrorly-black transition-colors"
