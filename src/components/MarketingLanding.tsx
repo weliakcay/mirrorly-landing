@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   ArrowRight,
   Tag,
@@ -294,6 +294,139 @@ const CustomerPattern = () => (
   </svg>
 );
 
+// ─── HERO SLIDER ────────────────────────────────────────────────
+// CodePen (Swiper) hero'sunun Mirrorly uyarlaması: 3 tam-ekran slayt,
+// otomatik dönme + crossfade + yavaş ken-burns (parallax hissi) + sola
+// hizalı serif başlık. Koyu-navy tema yerine sıcak krem/altın marka dili.
+const HERO_SLIDES = [
+  {
+    image: '/brand/generated/hero.jpg',
+    eyebrow: 'Scan. Style. Try on.',
+    line1: 'Etiketi okut.',
+    line2: 'Üstünde gör.',
+    text: 'Müşteriniz kabine girmeden, kıyafeti kendi üstünde telefonunda görür.',
+  },
+  {
+    image: '/brand/generated/slide2.jpg',
+    eyebrow: 'Kabin kuyruğu yok',
+    line1: 'Deneme,',
+    line2: 'saniyeler içinde.',
+    text: 'Etiketteki QR’ı okutur, fotoğrafını çeker; kıyafet anında üzerinde belirir.',
+  },
+  {
+    image: '/brand/generated/slide3.jpg',
+    eyebrow: 'Tam self-servis',
+    line1: '5 dakikada',
+    line2: 'butiğinizi kurun.',
+    text: 'Kendiniz kaydolur, ürünlerinizi yükler; her ürüne özel QR otomatik oluşur.',
+  },
+];
+
+const HeroSlider = ({
+  onMerchantSignup,
+  onCustomerDemo,
+}: {
+  onMerchantSignup: () => void;
+  onCustomerDemo: () => void;
+}) => {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => setActive((a) => (a + 1) % HERO_SLIDES.length), 6500);
+    return () => clearInterval(id);
+  }, [paused, active]);
+
+  const slide = HERO_SLIDES[active];
+
+  return (
+    <section
+      className="relative min-h-[100vh] w-full overflow-hidden -mt-[73px] pt-[73px]"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Arka plan slaytları — crossfade + yavaş zoom */}
+      {HERO_SLIDES.map((s, i) => (
+        <div
+          key={i}
+          className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${
+            i === active ? 'opacity-100' : 'opacity-0'
+          }`}
+          aria-hidden={i !== active}
+        >
+          <img
+            src={s.image}
+            alt=""
+            className={`absolute inset-0 w-full h-full object-cover object-right transition-transform ease-out ${
+              i === active ? 'scale-110 duration-[8000ms]' : 'scale-100 duration-0'
+            }`}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = 'none';
+            }}
+          />
+          {/* Overlay — sol taraf okunaklı kalsın (marka: krem, koyu değil) */}
+          <div className="absolute inset-0 bg-gradient-to-r from-mirrorly-cream/95 via-mirrorly-cream/70 to-mirrorly-cream/10 md:from-mirrorly-cream/92 md:via-mirrorly-cream/45 md:to-transparent" />
+        </div>
+      ))}
+
+      {/* İçerik — aktif slayt her değişimde yeniden animasyonla girer */}
+      <div className="relative z-10 min-h-[calc(100vh-73px)] flex items-center px-5 sm:px-8">
+        <div className="max-w-6xl mx-auto w-full">
+          <div key={active} className="max-w-2xl py-16 sm:py-24 animate-fade-in">
+            <p className="text-xs uppercase tracking-[0.35em] text-mirrorly-gold font-semibold mb-6">
+              {slide.eyebrow}
+            </p>
+            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-mirrorly-black leading-[1.02] tracking-tight mb-8">
+              {slide.line1}
+              <br />
+              <span className="italic text-mirrorly-stone">{slide.line2}</span>
+            </h1>
+            <p className="text-lg sm:text-xl md:text-2xl text-mirrorly-stone leading-relaxed mb-10 max-w-xl">
+              {slide.text}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <button
+                onClick={onMerchantSignup}
+                className="group inline-flex items-center justify-center gap-2 bg-mirrorly-black text-mirrorly-cream px-7 py-4 rounded-full font-medium text-base shadow-2xl hover:shadow-mirrorly-gold/30 hover:bg-mirrorly-stone transition-all"
+              >
+                Butiğimi Kur
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </button>
+              <button
+                onClick={onCustomerDemo}
+                className="inline-flex items-center justify-center gap-2 bg-mirrorly-gold/15 backdrop-blur-sm border border-mirrorly-gold/50 hover:bg-mirrorly-gold/25 hover:border-mirrorly-gold text-mirrorly-black px-7 py-4 rounded-full font-medium text-base transition-all"
+              >
+                <Scan className="w-4 h-4" />
+                Demoyu Dene
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Pagination — alt-sol, altın aktif çubuk */}
+      <div className="absolute bottom-8 inset-x-0 z-20 px-5 sm:px-8">
+        <div className="max-w-6xl mx-auto flex items-center gap-2.5">
+          {HERO_SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              aria-label={`Slayt ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === active ? 'w-9 bg-mirrorly-gold' : 'w-4 bg-mirrorly-black/25 hover:bg-mirrorly-black/45'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Alt kenar — narrow gold accent line */}
+      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-mirrorly-gold/60 to-transparent" />
+    </section>
+  );
+};
+
 // ─── MAIN COMPONENT ─────────────────────────────────────────────
 
 const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLandingProps) => {
@@ -354,75 +487,8 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
         </div>
       </nav>
 
-      {/* ─── HERO — FULL-BLEED SANATSAL ─────────────────── */}
-      <section className="relative min-h-[100vh] w-full overflow-hidden -mt-[73px] pt-[73px]">
-        {/* Background — sanatsal görsel veya fallback */}
-        <div className="absolute inset-0">
-          {/* Sanatsal hero görseli — sıcak butik anı (kie.ai flux-2 pro, 01-marka/gorsel-stil.md) */}
-          <img
-            src="/brand/generated/hero.jpg"
-            alt="Butiğinde telefonuyla kıyafeti üstünde gören müşteri"
-            className="absolute inset-0 w-full h-full object-cover object-right"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = 'none';
-            }}
-          />
-          {/* Fallback — görsel gelmediyse zengin gradient + animasyon */}
-          <div className="absolute inset-0 bg-gradient-to-br from-mirrorly-paper via-mirrorly-cream to-mirrorly-gold/40">
-            <SilkWaveBackground />
-            <FloatingParticles count={30} />
-            {/* Soft radial glow */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'radial-gradient(ellipse 60% 50% at 70% 50%, rgba(201,169,97,0.25), transparent 70%)',
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Overlay gradient — sol taraf okunaklı kalsın */}
-        <div className="absolute inset-0 bg-gradient-to-r from-mirrorly-cream/95 via-mirrorly-cream/70 to-mirrorly-cream/10 md:from-mirrorly-cream/90 md:via-mirrorly-cream/40 md:to-transparent" />
-
-        {/* Content */}
-        <div className="relative z-10 min-h-[calc(100vh-73px)] flex items-center px-5 sm:px-8">
-          <div className="max-w-6xl mx-auto w-full">
-            <div className="max-w-2xl py-16 sm:py-24 animate-fade-in">
-              <p className="text-xs uppercase tracking-[0.35em] text-mirrorly-gold font-semibold mb-6">
-                Scan. Style. Try on.
-              </p>
-              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-mirrorly-black leading-[1.02] tracking-tight mb-8">
-                Etiketi okut.
-                <br />
-                <span className="italic text-mirrorly-stone">Üstünde gör.</span>
-              </h1>
-              <p className="text-lg sm:text-xl md:text-2xl text-mirrorly-stone leading-relaxed mb-10 max-w-xl">
-                Müşterin kabine girmeden, kıyafetin kendi üstünde nasıl durduğunu telefonunda görsün.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                <button
-                  onClick={onMerchantSignup}
-                  className="group inline-flex items-center justify-center gap-2 bg-mirrorly-black text-mirrorly-cream px-7 py-4 rounded-full font-medium text-base shadow-2xl hover:shadow-mirrorly-gold/30 hover:bg-mirrorly-stone transition-all"
-                >
-                  Butiğimi Kur
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                </button>
-                <button
-                  onClick={onCustomerDemo}
-                  className="inline-flex items-center justify-center gap-2 bg-mirrorly-gold/15 backdrop-blur-sm border border-mirrorly-gold/50 hover:bg-mirrorly-gold/25 hover:border-mirrorly-gold text-mirrorly-black px-7 py-4 rounded-full font-medium text-base transition-all"
-                >
-                  <Scan className="w-4 h-4" />
-                  Demoyu Dene
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Alt kenar — narrow gold accent line */}
-        <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-mirrorly-gold/60 to-transparent" />
-      </section>
+      {/* ─── HERO — SLIDER (CodePen Swiper uyarlaması, sıcak butik) ── */}
+      <HeroSlider onMerchantSignup={onMerchantSignup} onCustomerDemo={onCustomerDemo} />
 
       {/* ─── PROBLEM ────────────────────────────────────── */}
       <section className="relative bg-mirrorly-black text-mirrorly-cream py-20 sm:py-28 overflow-hidden">
