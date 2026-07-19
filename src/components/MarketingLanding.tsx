@@ -14,6 +14,7 @@ import {
   MessageCircle,
   Upload,
   QrCode,
+  Plus,
 } from 'lucide-react';
 
 interface MarketingLandingProps {
@@ -230,69 +231,6 @@ const EmptyHangtagRow = () => (
   </div>
 );
 
-// Card mood patterns — 3 Kart üst banner için (her paydaşa farklı abstract)
-const ReelBoutiquePattern = () => (
-  <svg className="absolute inset-x-0 top-0 w-full h-32" viewBox="0 0 400 128" preserveAspectRatio="none">
-    <defs>
-      <linearGradient id="reelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stopColor="#C9A961" stopOpacity="0.25" />
-        <stop offset="100%" stopColor="#1F1B16" stopOpacity="0" />
-      </linearGradient>
-    </defs>
-    <rect width="400" height="128" fill="url(#reelGrad)" />
-    {/* Brass askı çubuğu */}
-    <line x1="20" y1="40" x2="380" y2="40" stroke="#C9A961" strokeWidth="2" />
-    {/* Askıdaki kıyafetler — abstract trapezoidler */}
-    {[60, 130, 200, 270, 340].map((x, i) => (
-      <g key={i}>
-        <line x1={x} y1="40" x2={x} y2="55" stroke="#C9A961" strokeWidth="1" />
-        <path
-          d={`M${x - 18},55 L${x + 18},55 L${x + 24},110 L${x - 24},110 Z`}
-          fill="#C9A961"
-          opacity={0.15 + i * 0.05}
-        />
-      </g>
-    ))}
-  </svg>
-);
-
-const OnlineSellerPattern = () => (
-  <svg className="absolute inset-x-0 top-0 w-full h-32" viewBox="0 0 400 128" preserveAspectRatio="none">
-    {/* Stacked layered fabric */}
-    {[0, 1, 2, 3, 4].map((i) => (
-      <rect
-        key={i}
-        x={20 + i * 4}
-        y={20 + i * 12}
-        width={360 - i * 8}
-        height="14"
-        rx="2"
-        fill="#1F1B16"
-        opacity={0.6 - i * 0.08}
-      />
-    ))}
-    {/* Gold thread accent */}
-    <line x1="40" y1="100" x2="200" y2="100" stroke="#1F1B16" strokeWidth="0.5" />
-    <circle cx="40" cy="100" r="2" fill="#1F1B16" />
-  </svg>
-);
-
-const CustomerPattern = () => (
-  <svg className="absolute inset-x-0 top-0 w-full h-32" viewBox="0 0 400 128" preserveAspectRatio="none">
-    <defs>
-      <radialGradient id="mirrorGrad" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stopColor="#EBE3D2" stopOpacity="0.6" />
-        <stop offset="100%" stopColor="#F5EFE3" stopOpacity="0" />
-      </radialGradient>
-    </defs>
-    {/* Soft mirror reflection ovals */}
-    <ellipse cx="200" cy="64" rx="160" ry="40" fill="url(#mirrorGrad)" />
-    <ellipse cx="200" cy="64" rx="120" ry="28" fill="url(#mirrorGrad)" />
-    {/* Subtle ripple lines */}
-    <ellipse cx="200" cy="64" rx="180" ry="48" fill="none" stroke="#C9A961" strokeWidth="0.5" opacity="0.4" />
-    <ellipse cx="200" cy="64" rx="100" ry="22" fill="none" stroke="#C9A961" strokeWidth="0.3" opacity="0.3" />
-  </svg>
-);
 
 // ─── HERO SLIDER ────────────────────────────────────────────────
 // CodePen (Swiper) hero'sunun Mirrorly uyarlaması: 3 tam-ekran slayt,
@@ -426,6 +364,306 @@ const HeroSlider = ({
     </section>
   );
 };
+
+// ─── KİM İÇİN — ACCORDION ───────────────────────────────────────
+// CodePen "accordion slider" mekaniğinin Mirrorly uyarlaması: masaüstünde
+// 3 yatay panel (grid fr ile genişler), grayscale yerine sıcak sepya/desatüre
+// + krem/siyah overlay (marka dili korunur); dikey etiket aktifte yatay
+// eyebrow'a döner, ghost rakam dolu altına döner, içerik stagger'la girer.
+// Otomatik döngü kullanıcı etkileşince kalıcı durur. Mobilde dikey kart yığını.
+// Copy: tasarım paneli sentezi + [[00-beyin/urun-gercekleri]].
+type Audience = {
+  key: string;
+  image: string;
+  icon: typeof Store;
+  brandLabel: string;
+  number: string;
+  title: string;
+  subtitle: string;
+  specs: { label: string; value: string }[];
+  badges: string[];
+  cta: 'merchant' | 'demo';
+};
+
+const AUDIENCES: Audience[] = [
+  {
+    key: 'boutique',
+    image: '/brand/generated/who-boutique.jpg',
+    icon: Store,
+    brandLabel: 'Mağaza',
+    number: '01',
+    title: 'Kabin sırasını sıfırla',
+    subtitle: 'Rafta beğenir, etiketi okutur, kabine girmeden üstünde görür.',
+    specs: [
+      { label: 'Akış', value: 'Etiketi okut, saniyeler içinde üstünde gör' },
+      { label: 'Kanal', value: 'Vitrin, raf, prova alanı' },
+      { label: 'Kurulum', value: 'Ürün başına otomatik QR' },
+      { label: 'Sonuç', value: 'Kabin sırası yerine seçici deneme' },
+    ],
+    badges: ['Kabin sırası biter', 'Daha çok ürün denenir', 'Sadece bakan, alana döner'],
+    cta: 'merchant',
+  },
+  {
+    key: 'online',
+    image: '/brand/generated/who-online.jpg',
+    icon: Globe,
+    brandLabel: 'Online',
+    number: '02',
+    title: 'Trendyol, kendi siten, Instagram — fark etmez',
+    subtitle: 'Görsele bir QR ekle, "üstümde nasıl durur?" sorusuna sepette cevap ver.',
+    specs: [
+      { label: 'Akış', value: "Görseldeki QR'ı okut, üstünde gör" },
+      { label: 'Kanal', value: 'Trendyol, web sitesi, sosyal medya' },
+      { label: 'Kurulum', value: 'Görsele ya da açıklamaya QR damgası' },
+      { label: 'Sonuç', value: 'Sepet terki ve iade sohbeti azalır' },
+    ],
+    badges: ['Karar sepette netleşir', 'İade sohbeti azalır', 'Tek QR, her kanalda'],
+    cta: 'merchant',
+  },
+  {
+    key: 'customer',
+    image: '/brand/generated/who-customer.jpg',
+    icon: Users,
+    brandLabel: 'Müşteri',
+    number: '03',
+    title: 'Beğen, okut, üstünde gör',
+    subtitle: 'Mağazada ya da ekranda gördüğün kıyafeti kendi fotoğrafınla anında dene.',
+    specs: [
+      { label: 'Akış', value: 'Okut, fotoğraf çek ya da galeriden yükle, üstünde gör' },
+      { label: 'Kanal', value: 'Mağazada ya da ekranda, nerede görürsen' },
+      { label: 'Kurulum', value: 'Kayıt yok, uygulama indirme yok' },
+      { label: 'Sonuç', value: 'Kendi bedeninde anında görsel, kabinde sıra yok' },
+    ],
+    badges: ['Kabinde sıra yok', 'Kendi fotoğrafınla dene', 'Beğendiğini sakla'],
+    cta: 'demo',
+  },
+];
+
+const AudienceContent = ({
+  a,
+  onMerchantSignup,
+  onCustomerDemo,
+}: {
+  a: Audience;
+  onMerchantSignup: () => void;
+  onCustomerDemo: () => void;
+}) => {
+  const Icon = a.icon;
+  const fx = (d: number) => ({ animationDelay: `${d}s`, animationFillMode: 'both' as const });
+  return (
+    <div className="max-w-md">
+      <div className="animate-fade-in flex items-center gap-2 mb-3" style={fx(0.04)}>
+        <Icon className="w-4 h-4 text-mirrorly-gold" strokeWidth={1.75} />
+        <span className="text-[11px] uppercase tracking-[0.3em] text-mirrorly-gold font-semibold">{a.brandLabel}</span>
+      </div>
+      <h3 className="animate-fade-in font-serif text-3xl sm:text-4xl leading-[1.08] mb-2" style={fx(0.12)}>
+        {a.title}
+      </h3>
+      <p className="animate-fade-in italic text-mirrorly-cream/85 text-base sm:text-lg mb-5" style={fx(0.2)}>
+        {a.subtitle}
+      </p>
+      <dl className="space-y-1.5 mb-5 border-t border-mirrorly-cream/15 pt-4">
+        {a.specs.map((s, k) => (
+          <div key={s.label} className="animate-fade-in flex gap-3 text-sm" style={fx(0.3 + k * 0.07)}>
+            <dt className="text-mirrorly-gold/90 w-16 shrink-0">{s.label}</dt>
+            <dd className="text-mirrorly-cream/90">{s.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div className="flex flex-wrap gap-2 mb-6">
+        {a.badges.map((b, k) => (
+          <span
+            key={b}
+            className="animate-fade-in text-xs bg-mirrorly-cream/10 border border-mirrorly-cream/15 rounded-full px-3 py-1"
+            style={fx(0.58 + k * 0.06)}
+          >
+            {b}
+          </span>
+        ))}
+      </div>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          a.cta === 'merchant' ? onMerchantSignup() : onCustomerDemo();
+        }}
+        className="animate-fade-in group/cta inline-flex items-center gap-2 bg-mirrorly-gold text-mirrorly-black px-5 py-2.5 rounded-full text-sm font-medium shadow-lg hover:bg-mirrorly-gold/90 transition-colors"
+        style={fx(0.74)}
+      >
+        {a.cta === 'merchant' ? 'Butiğimi Kur' : 'Demoyu Dene'}
+        <ArrowRight className="w-3.5 h-3.5 group-hover/cta:translate-x-0.5 transition-transform" />
+      </button>
+    </div>
+  );
+};
+
+const AudienceAccordion = ({
+  onMerchantSignup,
+  onCustomerDemo,
+}: {
+  onMerchantSignup: () => void;
+  onCustomerDemo: () => void;
+}) => {
+  const [active, setActive] = useState(0);
+  const [locked, setLocked] = useState(false);
+  const [reduce, setReduce] = useState(false);
+
+  useEffect(() => {
+    const m = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduce(m.matches);
+    const h = (e: MediaQueryListEvent) => setReduce(e.matches);
+    m.addEventListener('change', h);
+    return () => m.removeEventListener('change', h);
+  }, []);
+
+  useEffect(() => {
+    if (locked || reduce) return;
+    const id = setInterval(() => setActive((x) => (x + 1) % AUDIENCES.length), 6000);
+    return () => clearInterval(id);
+  }, [locked, reduce]);
+
+  const select = (i: number) => {
+    setActive(i);
+    setLocked(true);
+  };
+  const onKey = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      select((active + 1) % AUDIENCES.length);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      select((active - 1 + AUDIENCES.length) % AUDIENCES.length);
+    }
+  };
+
+  const cols = AUDIENCES.map((_, i) => (i === active ? '3fr' : '1fr')).join(' ');
+
+  return (
+    <>
+      {/* MASAÜSTÜ — yatay accordion */}
+      <div
+        role="tablist"
+        aria-label="Kim için"
+        onKeyDown={onKey}
+        onMouseLeave={() => setLocked(true)}
+        className="hidden lg:grid h-[600px] rounded-3xl overflow-hidden border border-mirrorly-paper shadow-xl transition-[grid-template-columns] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+        style={{ gridTemplateColumns: cols }}
+      >
+        {AUDIENCES.map((a, i) => {
+          const on = i === active;
+          return (
+            <div
+              key={a.key}
+              role="tab"
+              aria-selected={on}
+              aria-label={a.title}
+              tabIndex={on ? 0 : -1}
+              onClick={() => select(i)}
+              onMouseEnter={() => setLocked(true)}
+              className={`group relative overflow-hidden cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-mirrorly-gold ${
+                on ? 'ring-1 ring-inset ring-mirrorly-gold/40' : ''
+              } ${i > 0 ? 'border-l border-mirrorly-black/10' : ''}`}
+            >
+              {/* Arka plan görseli — sıcak sepya/desatüre → aktifte tam renk */}
+              <img
+                src={a.image}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                className={`absolute inset-0 w-full h-full object-cover transition-all ease-out motion-reduce:transition-none ${
+                  on
+                    ? 'scale-105 [filter:none] duration-700'
+                    : 'duration-500 [filter:saturate(0.4)_sepia(0.14)_brightness(0.9)_contrast(0.96)] group-hover:scale-[1.02] group-hover:[filter:saturate(0.6)_sepia(0.08)_brightness(0.95)]'
+                }`}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.visibility = 'hidden';
+                }}
+              />
+              {/* Overlay */}
+              <div
+                className={`absolute inset-0 transition-opacity duration-500 bg-gradient-to-t from-mirrorly-black/85 via-mirrorly-black/30 to-transparent ${
+                  on ? 'opacity-90' : 'opacity-100'
+                }`}
+              />
+
+              {/* Sıra no — pasif: dolgusuz altın kontur / aktif: dolu altın, büyük */}
+              <span
+                aria-hidden="true"
+                className={`absolute top-5 left-6 font-serif italic leading-none transition-all duration-500 ${
+                  on ? 'text-6xl sm:text-7xl opacity-100 scale-105' : 'text-2xl opacity-50'
+                }`}
+                style={
+                  on
+                    ? { color: '#C9A961' }
+                    : { color: 'transparent', WebkitTextStroke: '1px rgba(201,169,97,0.55)' }
+                }
+              >
+                {a.number}
+              </span>
+
+              {/* Pasif: dikey marka etiketi ortada */}
+              {!on && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <span className="[writing-mode:vertical-rl] rotate-180 font-serif uppercase tracking-[0.28em] text-mirrorly-cream/80 text-sm">
+                    {a.brandLabel}
+                  </span>
+                </div>
+              )}
+
+              {/* Pasif: alt + ipucu */}
+              {!on && (
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full border border-mirrorly-gold/60 flex items-center justify-center text-mirrorly-gold group-hover:bg-mirrorly-gold/15 transition-colors">
+                  <Plus className="w-4 h-4" strokeWidth={1.75} />
+                </div>
+              )}
+
+              {/* Aktif: içerik (her açılışta stagger yeniden oynar) */}
+              {on && (
+                <div key={active} className="absolute inset-0 flex flex-col justify-end p-7 sm:p-9 text-mirrorly-cream">
+                  <AudienceContent a={a} onMerchantSignup={onMerchantSignup} onCustomerDemo={onCustomerDemo} />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* MOBİL/TABLET — görsel banner + koyu zeminde okunaklı içerik (accordion terk edilir) */}
+      <div className="lg:hidden space-y-6">
+        {AUDIENCES.map((a) => (
+          <div
+            key={a.key}
+            className="rounded-3xl overflow-hidden border border-mirrorly-paper shadow-sm bg-mirrorly-black"
+          >
+            <div className="relative aspect-[16/10]">
+              <img
+                src={a.image}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.visibility = 'hidden';
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-mirrorly-black via-mirrorly-black/20 to-transparent" />
+              <span
+                aria-hidden="true"
+                className="absolute top-4 left-5 font-serif italic text-5xl leading-none"
+                style={{ color: '#C9A961', opacity: 0.92 }}
+              >
+                {a.number}
+              </span>
+            </div>
+            <div className="p-6 text-mirrorly-cream">
+              <AudienceContent a={a} onMerchantSignup={onMerchantSignup} onCustomerDemo={onCustomerDemo} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
+
 
 // ─── MAIN COMPONENT ─────────────────────────────────────────────
 
@@ -581,7 +819,7 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
         </div>
       </section>
 
-      {/* ─── KİM İÇİN? — 3 KART ─────────────────────────── */}
+      {/* ─── KİM İÇİN? — ACCORDION ───────────────────────── */}
       <section className="py-20 sm:py-28 px-5 sm:px-8 bg-mirrorly-paper/40">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14 sm:mb-20">
@@ -591,64 +829,7 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
             </h2>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-6">
-            {/* Reel Butikler */}
-            <div className="bg-mirrorly-black text-mirrorly-cream rounded-3xl p-8 sm:p-10 pt-32 relative overflow-hidden">
-              <ReelBoutiquePattern />
-              <Store className="w-7 h-7 text-mirrorly-gold mb-6 relative z-10" strokeWidth={1.75} />
-              <h3 className="font-serif text-2xl mb-1 relative z-10">Reel butikler</h3>
-              <p className="italic text-mirrorly-gold/90 mb-5 text-sm relative z-10">Kabin sırasını sıfırla.</p>
-              <p className="text-sm text-mirrorly-cream/80 leading-relaxed mb-6 relative z-10">
-                Müşterin rafa baktığı an, telefonunu çıkarıp etiketi okutuyor. Kıyafet 5 saniyede kendi vücudunda görünüyor. Hangi bedeni alacağına karar veriyor, sıraya girmeden kasaya geliyor.
-              </p>
-              <ul className="space-y-2.5 text-sm text-mirrorly-cream/90 mb-6 relative z-10">
-                <li className="flex gap-2"><span className="text-mirrorly-gold">·</span> Kabin doluluğu düşer, kasa hızlanır</li>
-                <li className="flex gap-2"><span className="text-mirrorly-gold">·</span> Müşteri 3 yerine 8 ürün dener</li>
-                <li className="flex gap-2"><span className="text-mirrorly-gold">·</span> "Sadece bakıyorum"u satışa çevir</li>
-              </ul>
-              <p className="text-xs text-mirrorly-cream/60 italic border-t border-mirrorly-cream/20 pt-4 relative z-10">
-                Cumartesi öğleden sonra, 3 müşteri aynı anda kabini bekler. İkisi etiketi okutur, biri kabine girer.
-              </p>
-            </div>
-
-            {/* Online Satıcılar */}
-            <div className="bg-mirrorly-gold text-mirrorly-black rounded-3xl p-8 sm:p-10 pt-32 relative overflow-hidden">
-              <OnlineSellerPattern />
-              <Globe className="w-7 h-7 text-mirrorly-black mb-6 relative z-10" strokeWidth={1.75} />
-              <h3 className="font-serif text-2xl mb-1 relative z-10">Online satıcılar</h3>
-              <p className="italic mb-5 text-sm relative z-10">Trendyol, kendi siten, Instagram — fark etmez.</p>
-              <p className="text-sm leading-relaxed mb-6 relative z-10">
-                Ürün görseline veya kart açıklamasına QR ekle. Müşteri ürünü beğendiğinde "üstümde nasıl durur?" sorusuna senin sayfanda cevap bulur. Sepete eklerken karar net olur, iade düşer.
-              </p>
-              <ul className="space-y-2.5 text-sm mb-6 relative z-10">
-                <li className="flex gap-2"><span>·</span> İade oranını düşür</li>
-                <li className="flex gap-2"><span>·</span> Sepet terk azalır</li>
-                <li className="flex gap-2"><span>·</span> Trendyol görseline QR damgası yeter</li>
-              </ul>
-              <p className="text-xs italic border-t border-mirrorly-black/20 pt-4 relative z-10">
-                Müşteri Trendyol'da elbiseyi görür, fotoğraftaki QR'ı okutur, kendi üstünde görür, sipariş verir.
-              </p>
-            </div>
-
-            {/* Son Kullanıcılar */}
-            <div className="bg-white rounded-3xl p-8 sm:p-10 pt-32 border border-mirrorly-paper relative overflow-hidden">
-              <CustomerPattern />
-              <Users className="w-7 h-7 text-mirrorly-gold mb-6 relative z-10" strokeWidth={1.75} />
-              <h3 className="font-serif text-2xl text-mirrorly-black mb-1 relative z-10">Son kullanıcılar</h3>
-              <p className="italic text-mirrorly-stone mb-5 text-sm relative z-10">Beğen, okut, üstünde gör.</p>
-              <p className="text-sm text-mirrorly-stone leading-relaxed mb-6 relative z-10">
-                Mağazada veya internette gördüğün kıyafetin etiketini telefona okut. Kendi fotoğrafından oluşturulmuş model üstünde anında gör. Beğendiğini kaydet, almadığını unut.
-              </p>
-              <ul className="space-y-2.5 text-sm text-mirrorly-stone mb-6 relative z-10">
-                <li className="flex gap-2"><span className="text-mirrorly-gold">·</span> Kabinde sıra beklemek yok</li>
-                <li className="flex gap-2"><span className="text-mirrorly-gold">·</span> Kendine yakışıp yakışmadığını tek bakışta gör</li>
-                <li className="flex gap-2"><span className="text-mirrorly-gold">·</span> Denediklerini telefonunda saklan</li>
-              </ul>
-              <p className="text-xs text-mirrorly-stone/70 italic border-t border-mirrorly-paper pt-4 relative z-10">
-                AVM'de gözüne takılan elbiseyi okutursun, üstünde görürsün, başka mağazaya bakmadan karar verirsin.
-              </p>
-            </div>
-          </div>
+          <AudienceAccordion onMerchantSignup={onMerchantSignup} onCustomerDemo={onCustomerDemo} />
         </div>
       </section>
 
