@@ -559,8 +559,16 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
               { src: '/brand/generated/step-photo.jpg', n: '02', t: 'Kendini çek', d: 'Aynanın karşısında tek fotoğraf yeter.' },
               { src: '/brand/generated/proof-rail.jpg', n: '03', t: 'Üstünde gör', d: 'Saniyeler içinde kendi üstünde.' },
             ].map((it) => (
-              <figure key={it.n} className="group relative overflow-hidden rounded-3xl border border-mirrorly-paper aspect-[3/4]">
-                <img src={it.src} alt={it.t} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <figure key={it.n} className="group relative overflow-hidden rounded-3xl border border-mirrorly-paper aspect-[3/4] bg-gradient-to-br from-mirrorly-paper via-mirrorly-cream to-mirrorly-gold/25">
+                <img
+                  src={it.src}
+                  alt={it.t}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.visibility = 'hidden';
+                  }}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-mirrorly-black/70 via-mirrorly-black/10 to-transparent" />
                 <figcaption className="absolute bottom-0 inset-x-0 p-5 sm:p-6 text-mirrorly-cream">
                   <p className="font-serif text-mirrorly-gold text-sm mb-1">{it.n}</p>
