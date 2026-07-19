@@ -400,7 +400,7 @@ const AUDIENCES: Audience[] = [
       { label: 'Kurulum', value: 'Ürün başına otomatik QR' },
       { label: 'Sonuç', value: 'Kabin sırası yerine seçici deneme' },
     ],
-    badges: ['Kabin sırası biter', 'Daha çok ürün denenir', 'Sadece bakan, alana döner'],
+    badges: ['Kabin sırası biter', 'Daha çok ürün denenir', 'Ayrılan müşteri kaybolmaz'],
     cta: 'merchant',
   },
   {
