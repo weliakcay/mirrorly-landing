@@ -556,7 +556,7 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
           <div className="grid sm:grid-cols-3 gap-4 sm:gap-6">
             {[
               { src: '/brand/generated/step-scan.jpg', n: '01', t: 'Etiketi okut', d: 'Kıyafetteki QR’ı telefonla okut.' },
-              { src: '/brand/generated/step-photo.jpg', n: '02', t: 'Kendini çek', d: 'Aynanın karşısında tek fotoğraf yeter.' },
+              { src: '/brand/generated/step-photo.jpg', n: '02', t: 'Kendini çek', d: 'Tek fotoğraf çek ya da galeriden yükle.' },
               { src: '/brand/generated/proof-rail.jpg', n: '03', t: 'Üstünde gör', d: 'Saniyeler içinde kendi üstünde.' },
             ].map((it) => (
               <figure key={it.n} className="group relative overflow-hidden rounded-3xl border border-mirrorly-paper aspect-[3/4] bg-gradient-to-br from-mirrorly-paper via-mirrorly-cream to-mirrorly-gold/25">
