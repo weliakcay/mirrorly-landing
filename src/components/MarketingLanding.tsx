@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ArrowRight,
   Tag,
@@ -16,6 +17,7 @@ import {
   QrCode,
   Plus,
 } from 'lucide-react';
+import LanguageSwitcher from './LanguageSwitcher';
 
 interface MarketingLandingProps {
   onMerchantSignup: () => void;
@@ -267,6 +269,7 @@ const HeroSlider = ({
   onMerchantSignup: () => void;
   onCustomerDemo: () => void;
 }) => {
+  const { t } = useTranslation();
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -313,22 +316,22 @@ const HeroSlider = ({
         <div className="max-w-6xl mx-auto w-full">
           <div key={active} className="max-w-2xl py-16 sm:py-24 animate-fade-in">
             <p className="text-xs uppercase tracking-[0.35em] text-mirrorly-gold font-semibold mb-6">
-              {slide.eyebrow}
+              {t(slide.eyebrow)}
             </p>
             <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-mirrorly-black leading-[1.02] tracking-tight mb-8">
-              {slide.line1}
+              {t(slide.line1)}
               <br />
-              <span className="italic text-mirrorly-stone">{slide.line2}</span>
+              <span className="italic text-mirrorly-stone">{t(slide.line2)}</span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-mirrorly-stone leading-relaxed mb-10 max-w-xl">
-              {slide.text}
+              {t(slide.text)}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 onClick={onMerchantSignup}
                 className="group inline-flex items-center justify-center gap-2 bg-mirrorly-black text-mirrorly-cream px-7 py-4 rounded-full font-medium text-base shadow-2xl hover:shadow-mirrorly-gold/30 hover:bg-mirrorly-stone transition-all"
               >
-                Butiğimi Kur
+                {t('Butiğimi Kur')}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </button>
               <button
@@ -336,7 +339,7 @@ const HeroSlider = ({
                 className="inline-flex items-center justify-center gap-2 bg-mirrorly-gold/15 backdrop-blur-sm border border-mirrorly-gold/50 hover:bg-mirrorly-gold/25 hover:border-mirrorly-gold text-mirrorly-black px-7 py-4 rounded-full font-medium text-base transition-all"
               >
                 <Scan className="w-4 h-4" />
-                Demoyu Dene
+                {t('Demoyu Dene')}
               </button>
             </div>
           </div>
@@ -350,7 +353,7 @@ const HeroSlider = ({
             <button
               key={i}
               onClick={() => setActive(i)}
-              aria-label={`Slayt ${i + 1}`}
+              aria-label={t(`Slayt ${i + 1}`)}
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === active ? 'w-9 bg-mirrorly-gold' : 'w-4 bg-mirrorly-black/25 hover:bg-mirrorly-black/45'
               }`}
@@ -448,25 +451,26 @@ const AudienceContent = ({
   onMerchantSignup: () => void;
   onCustomerDemo: () => void;
 }) => {
+  const { t } = useTranslation();
   const Icon = a.icon;
   const fx = (d: number) => ({ animationDelay: `${d}s`, animationFillMode: 'both' as const });
   return (
     <div className="max-w-md">
       <div className="animate-fade-in flex items-center gap-2 mb-3" style={fx(0.04)}>
         <Icon className="w-4 h-4 text-mirrorly-gold" strokeWidth={1.75} />
-        <span className="text-[11px] uppercase tracking-[0.3em] text-mirrorly-gold font-semibold">{a.brandLabel}</span>
+        <span className="text-[11px] uppercase tracking-[0.3em] text-mirrorly-gold font-semibold">{t(a.brandLabel)}</span>
       </div>
       <h3 className="animate-fade-in font-serif text-3xl sm:text-4xl leading-[1.08] mb-2" style={fx(0.12)}>
-        {a.title}
+        {t(a.title)}
       </h3>
       <p className="animate-fade-in italic text-mirrorly-cream/85 text-base sm:text-lg mb-5" style={fx(0.2)}>
-        {a.subtitle}
+        {t(a.subtitle)}
       </p>
       <dl className="space-y-1.5 mb-5 border-t border-mirrorly-cream/15 pt-4">
         {a.specs.map((s, k) => (
           <div key={s.label} className="animate-fade-in flex gap-3 text-sm" style={fx(0.3 + k * 0.07)}>
-            <dt className="text-mirrorly-gold/90 w-16 shrink-0">{s.label}</dt>
-            <dd className="text-mirrorly-cream/90">{s.value}</dd>
+            <dt className="text-mirrorly-gold/90 w-16 shrink-0">{t(s.label)}</dt>
+            <dd className="text-mirrorly-cream/90">{t(s.value)}</dd>
           </div>
         ))}
       </dl>
@@ -477,7 +481,7 @@ const AudienceContent = ({
             className="animate-fade-in text-xs bg-mirrorly-cream/10 border border-mirrorly-cream/15 rounded-full px-3 py-1"
             style={fx(0.58 + k * 0.06)}
           >
-            {b}
+            {t(b)}
           </span>
         ))}
       </div>
@@ -489,7 +493,7 @@ const AudienceContent = ({
         className="animate-fade-in group/cta inline-flex items-center gap-2 bg-mirrorly-gold text-mirrorly-black px-5 py-2.5 rounded-full text-sm font-medium shadow-lg hover:bg-mirrorly-gold/90 transition-colors"
         style={fx(0.74)}
       >
-        {a.cta === 'merchant' ? 'Butiğimi Kur' : 'Demoyu Dene'}
+        {a.cta === 'merchant' ? t('Butiğimi Kur') : t('Demoyu Dene')}
         <ArrowRight className="w-3.5 h-3.5 group-hover/cta:translate-x-0.5 transition-transform" />
       </button>
     </div>
@@ -503,6 +507,7 @@ const AudienceAccordion = ({
   onMerchantSignup: () => void;
   onCustomerDemo: () => void;
 }) => {
+  const { t } = useTranslation();
   const [active, setActive] = useState(0);
   const [locked, setLocked] = useState(false);
   const [reduce, setReduce] = useState(false);
@@ -542,7 +547,7 @@ const AudienceAccordion = ({
       {/* MASAÜSTÜ — yatay accordion */}
       <div
         role="tablist"
-        aria-label="Kim için"
+        aria-label={t('Kim için')}
         onKeyDown={onKey}
         onMouseLeave={() => setLocked(true)}
         className="hidden lg:grid h-[600px] rounded-3xl overflow-hidden border border-mirrorly-paper shadow-xl transition-[grid-template-columns] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
@@ -555,7 +560,7 @@ const AudienceAccordion = ({
               key={a.key}
               role="tab"
               aria-selected={on}
-              aria-label={a.title}
+              aria-label={t(a.title)}
               tabIndex={on ? 0 : -1}
               onClick={() => select(i)}
               onMouseEnter={() => setLocked(true)}
@@ -604,7 +609,7 @@ const AudienceAccordion = ({
               {!on && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <span className="[writing-mode:vertical-rl] rotate-180 font-serif uppercase tracking-[0.28em] text-mirrorly-cream/80 text-sm">
-                    {a.brandLabel}
+                    {t(a.brandLabel)}
                   </span>
                 </div>
               )}
@@ -668,6 +673,7 @@ const AudienceAccordion = ({
 // ─── MAIN COMPONENT ─────────────────────────────────────────────
 
 const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLandingProps) => {
+  const { t } = useTranslation();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const faqs = [
@@ -708,20 +714,23 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
           <a href="/" className="flex items-center gap-3">
             <img
               src="/brand/logo-primary.png"
-              alt="Mirrorly"
+              alt={t('Mirrorly')}
               className="h-9 w-auto"
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).style.display = 'none';
               }}
             />
-            <span className="font-serif text-2xl tracking-tight text-mirrorly-black lowercase">mirrorly</span>
+            <span className="font-serif text-2xl tracking-tight text-mirrorly-black lowercase">{t('mirrorly')}</span>
           </a>
-          <button
-            onClick={onMerchantSignup}
-            className="text-sm font-medium text-mirrorly-stone hover:text-mirrorly-black transition-colors px-4 py-2 rounded-full border border-mirrorly-paper hover:border-mirrorly-gold/60 bg-white/40"
-          >
-            Mağaza Girişi
-          </button>
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <button
+              onClick={onMerchantSignup}
+              className="text-sm font-medium text-mirrorly-stone hover:text-mirrorly-black transition-colors px-4 py-2 rounded-full border border-mirrorly-paper hover:border-mirrorly-gold/60 bg-white/40"
+            >
+              {t('Mağaza Girişi')}
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -741,12 +750,12 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
 
         <div className="relative max-w-3xl mx-auto px-5 sm:px-8 z-10">
           <p className="font-serif text-3xl sm:text-4xl md:text-5xl leading-tight tracking-tight">
-            Müşterin vitrini gördü, içeri girmedi. Kabin sırasını bekledi, çıkıp gitti. Online'dan aldı, üstüne uymadı, geri yolladı.
+            {t("Müşterin vitrini gördü, içeri girmedi. Kabin sırasını bekledi, çıkıp gitti. Online'dan aldı, üstüne uymadı, geri yolladı.")}
             <br />
             <span className="block mt-6 text-mirrorly-cream/70 text-2xl sm:text-3xl md:text-4xl italic">
-              Üç farklı sahne — tek bir soru:
+              {t('Üç farklı sahne — tek bir soru:')}
             </span>
-            <span className="block mt-3 text-mirrorly-gold">"Bende nasıl durur?"</span>
+            <span className="block mt-3 text-mirrorly-gold">{t(`"Bende nasıl durur?"`)}</span>
           </p>
         </div>
       </section>
@@ -756,10 +765,10 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14 sm:mb-20">
             <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">
-              Etiketin İkinci Hayatı
+              {t('Etiketin İkinci Hayatı')}
             </p>
             <h2 className="font-serif text-4xl sm:text-5xl text-mirrorly-black tracking-tight">
-              4 adımda kur.
+              {t('4 adımda kur.')}
             </h2>
           </div>
 
@@ -779,8 +788,8 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
                     <Icon className="w-5 h-5 text-mirrorly-gold" strokeWidth={1.75} />
                   </div>
                   <p className="font-serif text-3xl text-mirrorly-gold mb-2">{i + 1}</p>
-                  <h3 className="font-serif text-xl text-mirrorly-black mb-2">{step.title}</h3>
-                  <p className="text-sm text-mirrorly-stone leading-relaxed">{step.desc}</p>
+                  <h3 className="font-serif text-xl text-mirrorly-black mb-2">{t(step.title)}</h3>
+                  <p className="text-sm text-mirrorly-stone leading-relaxed">{t(step.desc)}</p>
                 </div>
               );
             })}
@@ -800,7 +809,7 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
               <figure key={it.n} className="group relative overflow-hidden rounded-3xl border border-mirrorly-paper aspect-[3/4] bg-gradient-to-br from-mirrorly-paper via-mirrorly-cream to-mirrorly-gold/25">
                 <img
                   src={it.src}
-                  alt={it.t}
+                  alt={t(it.t)}
                   loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   onError={(e) => {
@@ -810,8 +819,8 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
                 <div className="absolute inset-0 bg-gradient-to-t from-mirrorly-black/70 via-mirrorly-black/10 to-transparent" />
                 <figcaption className="absolute bottom-0 inset-x-0 p-5 sm:p-6 text-mirrorly-cream">
                   <p className="font-serif text-mirrorly-gold text-sm mb-1">{it.n}</p>
-                  <p className="font-serif text-xl sm:text-2xl leading-tight">{it.t}</p>
-                  <p className="text-sm text-mirrorly-cream/80 mt-1">{it.d}</p>
+                  <p className="font-serif text-xl sm:text-2xl leading-tight">{t(it.t)}</p>
+                  <p className="text-sm text-mirrorly-cream/80 mt-1">{t(it.d)}</p>
                 </figcaption>
               </figure>
             ))}
@@ -823,9 +832,9 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
       <section className="py-20 sm:py-28 px-5 sm:px-8 bg-mirrorly-paper/40">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14 sm:mb-20">
-            <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">Kim için?</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">{t('Kim için?')}</p>
             <h2 className="font-serif text-4xl sm:text-5xl text-mirrorly-black tracking-tight">
-              Üç ayrı dünya, tek etiket.
+              {t('Üç ayrı dünya, tek etiket.')}
             </h2>
           </div>
 
@@ -837,26 +846,26 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
       <section className="py-20 sm:py-28 px-5 sm:px-8">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div className="relative rounded-3xl overflow-hidden border border-mirrorly-paper aspect-[3/2] order-last lg:order-first">
-            <img src="/brand/generated/owner.jpg" alt="Butik sahibi panelden QR etiketlerini yönetiyor" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+            <img src="/brand/generated/owner.jpg" alt={t('Butik sahibi panelden QR etiketlerini yönetiyor')} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
           </div>
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">Butik sahibiysen</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">{t('Butik sahibiysen')}</p>
             <h2 className="font-serif text-4xl sm:text-5xl text-mirrorly-black tracking-tight mb-5 leading-tight">
-              Kurulumu sen yaparsın.<br /><span className="italic text-mirrorly-stone">5 dakikada.</span>
+              {t('Kurulumu sen yaparsın.')}<br /><span className="italic text-mirrorly-stone">{t('5 dakikada.')}</span>
             </h2>
             <p className="text-base sm:text-lg text-mirrorly-stone leading-relaxed mb-8 max-w-lg">
-              Kendi kaydolursun, ürün görsellerini yüklersin, her ürüne benzersiz QR otomatik oluşur. Panelden yazdır, kıyafete as. Kimseyi beklemezsin.
+              {t('Kendi kaydolursun, ürün görsellerini yüklersin, her ürüne benzersiz QR otomatik oluşur. Panelden yazdır, kıyafete as. Kimseyi beklemezsin.')}
             </p>
             <ul className="space-y-3 text-mirrorly-stone mb-9 max-w-lg">
-              <li className="flex gap-3"><span className="text-mirrorly-gold font-serif">·</span> Ürün başına otomatik, benzersiz QR</li>
-              <li className="flex gap-3"><span className="text-mirrorly-gold font-serif">·</span> Panelden istatistik ve kredi yönetimi</li>
-              <li className="flex gap-3"><span className="text-mirrorly-gold font-serif">·</span> Kurulum ekibi beklemek yok — anında canlı</li>
+              <li className="flex gap-3"><span className="text-mirrorly-gold font-serif">·</span> {t('Ürün başına otomatik, benzersiz QR')}</li>
+              <li className="flex gap-3"><span className="text-mirrorly-gold font-serif">·</span> {t('Panelden istatistik ve kredi yönetimi')}</li>
+              <li className="flex gap-3"><span className="text-mirrorly-gold font-serif">·</span> {t('Kurulum ekibi beklemek yok — anında canlı')}</li>
             </ul>
             <button
               onClick={onMerchantSignup}
               className="group inline-flex items-center justify-center gap-2 bg-mirrorly-black text-mirrorly-cream px-7 py-4 rounded-full font-medium text-base shadow-xl hover:bg-mirrorly-stone transition-all"
             >
-              Butiğimi Kur
+              {t('Butiğimi Kur')}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
@@ -867,19 +876,19 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
       <section className="relative py-20 sm:py-28 px-5 sm:px-8 overflow-hidden">
         <MirrorRipple />
         <div className="max-w-3xl mx-auto text-center relative z-10">
-          <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">İlk denemen</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">{t('İlk denemen')}</p>
           <h2 className="font-serif text-4xl sm:text-5xl text-mirrorly-black tracking-tight mb-5">
-            Önce sen dene.
+            {t('Önce sen dene.')}
           </h2>
           <p className="text-base sm:text-lg text-mirrorly-stone leading-relaxed mb-10 max-w-xl mx-auto">
-            Demo butiğimizde 5 kıyafet hazır bekliyor. QR'ı telefonunla okut, kendi fotoğrafını yükle, sonucu gör. 30 saniye.
+            {t("Demo butiğimizde 5 kıyafet hazır bekliyor. QR'ı telefonunla okut, kendi fotoğrafını yükle, sonucu gör. 30 saniye.")}
           </p>
           <button
             onClick={onCustomerDemo}
             className="group inline-flex items-center justify-center gap-2 bg-mirrorly-gold text-mirrorly-black px-8 py-4 rounded-full font-medium text-base animate-soft-pulse hover:bg-mirrorly-gold/90 transition-all"
           >
             <Smartphone className="w-4 h-4" />
-            Demoyu Aç
+            {t('Demoyu Aç')}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </button>
         </div>
@@ -888,20 +897,20 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
       {/* ─── SOSYAL KANIT (PLACEHOLDER) ──────────────────── */}
       <section className="py-20 sm:py-28 px-5 sm:px-8 bg-mirrorly-paper/30 border-y border-mirrorly-paper">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">Yakında</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">{t('Yakında')}</p>
           <h2 className="font-serif text-3xl sm:text-4xl text-mirrorly-black tracking-tight mb-8">
-            İlk butik vakaları geliyor.
+            {t('İlk butik vakaları geliyor.')}
           </h2>
           <EmptyHangtagRow />
           <p className="text-base text-mirrorly-stone leading-relaxed mb-8 max-w-xl mx-auto">
-            İlk pilot butiklerimizle çalışıyoruz. İlk vaka çalışmaları (kabin trafiği, iade düşüşü, satışa dönüşüm) burada yayınlanacak. <span className="text-mirrorly-black font-medium">Sıradaki sen olabilirsin.</span>
+            {t('İlk pilot butiklerimizle çalışıyoruz. İlk vaka çalışmaları (kabin trafiği, iade düşüşü, satışa dönüşüm) burada yayınlanacak.')} <span className="text-mirrorly-black font-medium">{t('Sıradaki sen olabilirsin.')}</span>
           </p>
           <a
             href="mailto:weliakcay@gmail.com?subject=Mirrorly%20Bekleme%20Listesi"
             className="inline-flex items-center justify-center gap-2 bg-white border border-mirrorly-paper hover:border-mirrorly-gold/70 text-mirrorly-black px-7 py-3 rounded-full font-medium text-sm transition-all"
           >
             <Mail className="w-4 h-4" />
-            Bekleme Listesine Katıl
+            {t('Bekleme Listesine Katıl')}
           </a>
         </div>
       </section>
@@ -911,10 +920,10 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-xs uppercase tracking-[0.3em] text-mirrorly-gold font-medium mb-4">
-              Sıkça Sorulanlar
+              {t('Sıkça Sorulanlar')}
             </p>
             <h2 className="font-serif text-4xl sm:text-5xl text-mirrorly-black tracking-tight">
-              Aklında soru var?
+              {t('Aklında soru var?')}
             </h2>
           </div>
 
@@ -927,7 +936,7 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
                     onClick={() => setOpenFaq(isOpen ? null : i)}
                     className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-mirrorly-cream/50 transition-colors"
                   >
-                    <span className="font-serif text-lg text-mirrorly-black">{item.q}</span>
+                    <span className="font-serif text-lg text-mirrorly-black">{t(item.q)}</span>
                     <ChevronDown
                       className={`w-5 h-5 text-mirrorly-gold flex-shrink-0 transition-transform ${
                         isOpen ? 'rotate-180' : ''
@@ -936,7 +945,7 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
                     />
                   </button>
                   {isOpen && (
-                    <div className="px-6 pb-5 text-mirrorly-stone leading-relaxed text-[15px]">{item.a}</div>
+                    <div className="px-6 pb-5 text-mirrorly-stone leading-relaxed text-[15px]">{t(item.a)}</div>
                   )}
                 </div>
               );
@@ -950,19 +959,19 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
         <GoldDustField density={50} opacity={0.3} />
         <div className="max-w-3xl mx-auto text-center relative z-10">
           <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl tracking-tight leading-tight mb-6">
-            Butiğin için 2 dakika.
+            {t('Butiğin için 2 dakika.')}
             <br />
-            Müşterin için saniyeler.
+            {t('Müşterin için saniyeler.')}
           </h2>
           <p className="text-base sm:text-lg text-mirrorly-cream/70 leading-relaxed mb-10 max-w-xl mx-auto">
-            Mirrorly'yi bugün kur, ilk QR'ını bu hafta yapıştır.
+            {t("Mirrorly'yi bugün kur, ilk QR'ını bu hafta yapıştır.")}
           </p>
           <button
             onClick={onMerchantSignup}
             className="group inline-flex items-center justify-center gap-2 bg-mirrorly-gold text-mirrorly-black px-9 py-5 rounded-full font-medium text-lg shadow-2xl hover:bg-mirrorly-cream transition-all"
           >
             <ShoppingBag className="w-5 h-5" />
-            Butiğimi Şimdi Kur
+            {t('Butiğimi Şimdi Kur')}
             <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
           </button>
           <div className="mt-6">
@@ -970,7 +979,7 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
               onClick={onCustomerDemo}
               className="text-sm text-mirrorly-cream/60 hover:text-mirrorly-gold transition-colors underline-offset-4 hover:underline"
             >
-              Önce demoyu görmek istiyorum →
+              {t('Önce demoyu görmek istiyorum →')}
             </button>
           </div>
         </div>
@@ -980,14 +989,14 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
       <footer className="bg-mirrorly-cream border-t border-mirrorly-paper px-5 sm:px-8 py-10">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
-            <p className="font-serif text-xl text-mirrorly-black lowercase mb-1">mirrorly</p>
+            <p className="font-serif text-xl text-mirrorly-black lowercase mb-1">{t('mirrorly')}</p>
             <p className="text-xs uppercase tracking-[0.25em] text-mirrorly-stone/60">
-              Scan. Style. Try on.
+              {t('Scan. Style. Try on.')}
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-5 text-sm text-mirrorly-stone">
             <a href="mailto:weliakcay@gmail.com" className="flex items-center gap-1.5 hover:text-mirrorly-black transition-colors">
-              <Mail className="w-4 h-4" /> Mail
+              <Mail className="w-4 h-4" /> {t('Mail')}
             </a>
             <a
               href="https://www.instagram.com/mirrorly.app/"
@@ -995,11 +1004,11 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 hover:text-mirrorly-black transition-colors"
             >
-              <Instagram className="w-4 h-4" /> Instagram
+              <Instagram className="w-4 h-4" /> {t('Instagram')}
             </a>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-xs text-mirrorly-stone/60">
-            <span>© {new Date().getFullYear()} Mirrorly</span>
+            <span>{t('© {{year}} Mirrorly', { year: new Date().getFullYear() })}</span>
           </div>
         </div>
       </footer>
