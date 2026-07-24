@@ -711,15 +711,17 @@ const MarketingLanding = ({ onMerchantSignup, onCustomerDemo }: MarketingLanding
       {/* ─── STICKY NAV ────────────────────────────────── */}
       <nav className="sticky top-0 z-50 backdrop-blur-md bg-mirrorly-cream/85 border-b border-mirrorly-paper/60">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3">
-            <img
-              src="/brand/logo-primary.png"
-              alt={t('Mirrorly')}
-              className="h-9 w-auto"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.display = 'none';
-              }}
-            />
+          <a href="/" className="flex items-center gap-2.5">
+            <span className="inline-flex items-center justify-center w-10 h-10 p-1.5 rounded-xl bg-white border border-mirrorly-paper shadow-sm">
+              <img
+                src="/brand/logo-icon.png"
+                alt={t('Mirrorly')}
+                className="h-full w-auto object-contain"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.display = 'none';
+                }}
+              />
+            </span>
             <span className="font-serif text-2xl tracking-tight text-mirrorly-black lowercase">{t('mirrorly')}</span>
           </a>
           <div className="flex items-center gap-3">
