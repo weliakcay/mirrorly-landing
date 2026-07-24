@@ -26,8 +26,12 @@ i18n
       fr: { translation: fr },
       ru: { translation: ru },
     },
-    fallbackLng: 'tr',
+    // TR → Türkçe (anahtarın kendisi); diğer/desteklenmeyen diller → İngilizce
+    // (Türkçe'ye düşmesin). de/fr/ru'da eksik anahtar olursa da İngilizce.
+    fallbackLng: { tr: ['tr'], default: ['en'] },
     supportedLngs: ['tr', 'en', 'de', 'fr', 'ru'],
+    nonExplicitSupportedLngs: true, // en-US → en
+    load: 'languageOnly',
     // Türkçe metin ANAHTAR olarak kullanılıyor → ayraçları KAPAT
     // (yoksa "Etiketi okut." ya da "Fiyat: 100" gibi metinler nested key sanılır).
     keySeparator: false,
@@ -46,6 +50,11 @@ i18n
 const setHtmlLang = (lng: string) => {
   if (typeof document !== 'undefined') document.documentElement.lang = (lng || 'tr').split('-')[0];
 };
+// Desteklenmeyen tarayıcı dili (örn. es/it) → Türkçe yerine İngilizce aç.
+const SUPPORTED = ['tr', 'en', 'de', 'fr', 'ru'];
+if (!SUPPORTED.includes((i18n.language || 'tr').split('-')[0])) {
+  i18n.changeLanguage('en');
+}
 setHtmlLang(i18n.language); // ilk yükleme (languageChanged init'ten önce kaydedilemez)
 i18n.on('languageChanged', setHtmlLang);
 
